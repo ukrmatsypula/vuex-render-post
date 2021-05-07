@@ -4,11 +4,14 @@ export default {
   },
   getters: {
     GET_ALL_POSTS: (state) => state.post,
-    POST_COUNT: state => state.post.length,
+    POST_COUNT: (state) => state.post.length,
   },
   mutations: {
     UPDATE_POSTS: (state, posts) => {
       state.post = posts;
+    },
+    ADD_NEW_POST: (state, newPost) => {
+      state.post.unshift(newPost);
     },
   },
   actions: {

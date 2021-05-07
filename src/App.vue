@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-      <dl>
-        <dt>
-          <dd>Всего постов: {{ countPosts }}</dd>
-        </dt>
-      </dl>
+    <h3>Всего постов: {{ countPosts }}</h3>
     <div class="post" v-for="(post, index) in allPosts" :key="index">
       <h3>{{ post.title }}</h3>
-      <p>{{ post.body }}}</p>
+      <p>{{ post.body }}</p>
     </div>
+    <PostForm />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PostForm from './components/PostForm.vue';
+
 export default {
   name: 'App',
+  components: {
+    PostForm
+  },
   computed: {
     ...mapGetters(['GET_ALL_POSTS']),
     ...mapGetters(['POST_COUNT']),
@@ -31,7 +33,7 @@ export default {
     ...mapActions(['FETCH_POSTS']),
   },
   async mounted() {
-    this.FETCH_POSTS(15);
+    this.FETCH_POSTS(2);
     // this.$store.dispatch('FETCH_POSTS');
   },
 };
