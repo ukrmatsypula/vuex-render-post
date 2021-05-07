@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <div class="post" v-for="(post, index) in posts" :key="index">
+      <dl>
+        <dt>
+          <dd>Всего постов: {{ countPosts }}</dd>
+        </dt>
+      </dl>
+    <div class="post" v-for="(post, index) in allPosts" :key="index">
       <h3>{{ post.title }}</h3>
       <p>{{ post.body }}}</p>
     </div>
@@ -8,18 +13,26 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'App',
-  data: () => ({
-    posts: [],
-  }),
-  components: {},
+  computed: {
+    ...mapGetters(['GET_ALL_POSTS']),
+    ...mapGetters(['POST_COUNT']),
+    allPosts() {
+      return this.GET_ALL_POSTS;
+      //this.$store.getters.GET_ALL_POSTS;
+    },
+    countPosts() {
+      return this.POST_COUNT;
+    },
+  },
+  methods: {
+    ...mapActions(['FETCH_POSTS']),
+  },
   async mounted() {
-    const response = await fetch(
-      'http://jsonplaceholder.typicode.com/posts/?_limit=3'
-    );
-    const posts = await response.json();
-    this.posts = posts;
+    this.FETCH_POSTS(15);
+    // this.$store.dispatch('FETCH_POSTS');
   },
 };
 </script>
